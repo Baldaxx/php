@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+require './vendor/autoload.php';
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable('C:\wamp64\www\PHP\server');
 $dotenv->load();
 
 $host = $_ENV['HOST'];
@@ -14,5 +14,4 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
     echo "Erreur lors de la connexion à la base de données MySQL: " . $e->getMessage();
-    $pdo = null; 
 }

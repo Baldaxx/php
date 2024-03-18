@@ -5,12 +5,17 @@ include './common/nav.php';
 require './server/database.php';
 ?>
 
-<h1>Page login</h1>
+<h1>Page exo1</h1>
 <form method="post" action="addUser.php">
     <div class="form-group">
         <label for="username">Nom d'utilisateur</label>
         <input type="text" class="form-control" name="username" id="username" placeholder="Entrez votre nom d'utilisateur">
     </div>
+    <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe">
+    </div>
+
     <br>
     <button type="submit" name="submit" class="btn btn-primary">Submit</button>
 </form>
@@ -19,12 +24,12 @@ require './server/database.php';
 
 if (isset($_SESSION['message'])) {
     echo "<p style='color: green;'>" . $_SESSION['message'] . "</p>";
-    unset($_SESSION['message']); 
+    unset($_SESSION['message']);
 }
 
 if (isset($_SESSION['error'])) {
     echo "<p style='color: red;'>" . $_SESSION['error'] . "</p>";
-    unset($_SESSION['error']); 
+    unset($_SESSION['error']);
 }
 
 if (isset($pdo)) {
