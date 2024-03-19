@@ -8,7 +8,7 @@ if (isset($_POST['submit']) && !empty($_POST['username']) && !empty($_POST['pass
 
     if (strlen($password) < 6) {
         $_SESSION['error'] = "Le mot de passe doit contenir au moins 6 caractères.";
-        header('Location: exo1.php');
+        header('Location: register.php');
         exit();
     }
 
@@ -30,6 +30,6 @@ if (isset($_POST['submit']) && !empty($_POST['username']) && !empty($_POST['pass
         $_SESSION['error'] = "Merci de respecter le format du nom d'utilisateur.";
     }
 
-    header('Location: exo1.php');
+    header('Location: register.php');
     exit();
 }

@@ -1,8 +1,23 @@
 <?php
-include './common/head.php';
-include './common/nav.php';
+session_start(); 
+
+if (isset($_POST['submit'])) {
+
+    session_unset();
+    session_destroy();
+    
+    $logout_message = "Vous êtes deconnecté.";
+}
 ?>
-<h1>Page logout</h1>
-<?php
-include './common/footer.php';
-?>
+
+    <?php include './common/head.php'; ?>
+    <?php include './common/nav.php'; ?>
+
+    <h1>Page de Déconnexion</h1>
+
+    <?php if (isset($logout_message)) echo "<p>$logout_message</p>"; ?>
+    <form method="POST">
+        <button type="submit" name="submit" class="btn btn-primary">Déconnexion</button>
+    </form>
+
+    <?php include './common/footer.php'; ?>

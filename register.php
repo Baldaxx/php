@@ -1,57 +1,56 @@
 <?php
+session_start();
 include './common/head.php';
 include './common/nav.php';
+require './server/database.php';
 ?>
-<h1>Page register</h1>
 
-<form method="POST">
+<h1>Page s'enregistrer</h1>
+<form method="post" action="addUser.php">
     <div class="form-group">
-        <label for="name">Nom d'utilisateur</label>
-        <input type="text" class="form-control" id="username" placeholder="Entrez votre nom d'utilisateur" name="username">
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" class="form-control" name="username" id="username" placeholder="Entrez votre nom d'utilisateur">
     </div>
     <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Entrer votre email" name="email">
+        <label for="password">Mot de passe</label>
+        <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe">
     </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Mot de passe" name="password">
-    </div>
-    <input type="submit" class="btn btn-primary" value="submit" name="submit"></input>
+
+    <br>
+    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
 </form>
 
 <?php
-if (isset($_POST['submit'])) {
-    if (!empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password'])) {
-        $username = $_POST['username'];
-        if (preg_match('/^[a-zA-Z0-9]{4,16}$/', $username)) {
-            echo "Mon nom : $username";
-        } else {
-            echo "Merci de respecter le format chiffre lettre majuscule minuscule";
-        }
+if (isset($_SESSION['message'])) {
+    echo "<p style='color: green;'>" . $_SESSION['message'] . "</p>";
+    unset($_SESSION['message']);
+}
 
-        $email = $_POST['email'];
-        $emailSanitize = filter_var($email, FILTER_SANITIZE_EMAIL);
-        if (filter_var($emailSanitize, FILTER_VALIDATE_EMAIL)) {
-            echo " Mon email : $emailSanitize";
-        } else {
-            echo " Merci d'ajouter un email valide";
-        }
+if (isset($_SESSION['error'])) {
+    echo "<p style='color: red;'>" . $_SESSION['error'] . "</p>";
+    unset($_SESSION['error']);
+}
 
-        $password = $_POST['password'];
-        if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%?&])[A-Za-z\d@$!%?&]{8,20}$/', $password)) {
-            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            echo " Mon mot de passe (haché pour la sécurité) : $passwordHash";
+if (isset($pdo)) {
+    try {
+        $sql = "SELECT nom FROM utilisateur";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!empty($results)) {
+            echo "<ul>";
+            foreach ($results as $utilisateur) {
+                echo "<li>" . htmlspecialchars($utilisateur['nom']) . "</li>";
+            }
+            echo "</ul>";
         } else {
-            echo " Merci de respecter le format du mot de passe";
+            echo "<p>Aucun utilisateur enregistré pour le moment.</p>";
         }
-    } else {
-        echo "Merci de remplir tout le formulaire";
+    } catch (Exception $e) {
+        echo "<p>Une erreur est survenue lors de l'affichage des utilisateurs : " . $e->getMessage() . "</p>";
     }
 }
 ?>
 
-
-<?php
-include './common/footer.php';
-?>
+<?php include './common/footer.php'; ?>
