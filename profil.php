@@ -24,7 +24,7 @@ $nomUtilisateur = $user['nom'];
 
     <?php include './common/head.php'; ?>
     <?php include './common/nav.php'; ?>
-
+    <img src="img/user.png" alt="Photo de profil">
     <h1>Bonjour, <?= htmlspecialchars($nomUtilisateur); ?></h1>
 
     <?php include './common/footer.php'; ?>
