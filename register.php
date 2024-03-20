@@ -11,13 +11,19 @@ require './server/database.php';
         <label for="username">Nom d'utilisateur</label>
         <input type="text" class="form-control" name="username" id="username" placeholder="Entrez votre nom d'utilisateur">
     </div>
+
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Entrez votre email">
+    </div>
+
     <div class="form-group">
         <label for="password">Mot de passe</label>
         <input type="password" class="form-control" name="password" id="password" placeholder="Entrez votre mot de passe">
     </div>
 
     <br>
-    <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" name="submit" class="btn btn-primary">Creer mon compte</button>
 </form>
 
 <?php
@@ -33,17 +39,16 @@ if (isset($_SESSION['error'])) {
 
 if (isset($pdo)) {
     try {
-        $sql = "SELECT nom FROM utilisateur";
+        $sql = "SELECT nom FROM utilisateur ORDER BY id DESC LIMIT 3";
         $stmt = $pdo->prepare($sql);
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (!empty($results)) {
-            echo "<ul>";
+            echo "<h2>Derniers Utilisateurs Inscrits</h2>";
             foreach ($results as $utilisateur) {
-                echo "<li>" . htmlspecialchars($utilisateur['nom']) . "</li>";
+                echo "<div class='utilisateur'>" . htmlspecialchars($utilisateur['nom']) . "</div>";
             }
-            echo "</ul>";
         } else {
             echo "<p>Aucun utilisateur enregistré pour le moment.</p>";
         }

@@ -3,7 +3,7 @@ session_start();
 include './common/head.php';
 include './common/nav.php';
 ?>
-<h1>Bienvenue sur la page d'accueil des exercices PHP !</h1>
+<h1>Bienvenue sur notre site !</h1>
 
 <?php
 if (isset($_SESSION['logout_message'])) {
@@ -11,6 +11,7 @@ if (isset($_SESSION['logout_message'])) {
     unset($_SESSION['logout_message']);
 }
 ?>
+
 
 <?php
 include './common/footer.php';
